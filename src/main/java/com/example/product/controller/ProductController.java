@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+//
 @RestController//permette a spring di gestire richieste rest
 @RequestMapping("/api/products")
 public class ProductController {
