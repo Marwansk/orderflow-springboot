@@ -14,8 +14,8 @@ public class ProductController {
     @GetMapping//è un'annotazione di Spring Boot che serve a collegare una richiesta HTTP GET a un metodo Java.
 
     public List<Product> getAllProducts(){
-        Product mouse=new Product(1L, "Mouse", new BigDecimal("19,99"),10);
+        Product mouse=new Product(1L, "Mouse", new BigDecimal("19.99"),10);
 
-    return List.of();
+    return List.of(mouse);//creo lista contenente il prodotto mouse
     }//end metodo
 }
