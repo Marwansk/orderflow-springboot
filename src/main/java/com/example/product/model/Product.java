@@ -1,7 +1,7 @@
 package com.example.product.model;
 
 import java.math.BigDecimal;
-
+//Product
 public class Product {
     private long id;
     private String name;
