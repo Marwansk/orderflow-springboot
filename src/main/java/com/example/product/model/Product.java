@@ -3,7 +3,7 @@ package com.example.product.model;
 import java.math.BigDecimal;
 //Product
 public class Product {
-    private long id;
+    private Long id;
     private String name;
     private BigDecimal price;
     private int stock;
@@ -40,7 +40,7 @@ public class Product {
         this.stock = stock;
     }
 
-    public Product(long id, String name, BigDecimal price, int stock) {
+    public Product(Long id, String name, BigDecimal price, int stock) {
         this.id = id;
         this.name = name;
         this.price = price;
