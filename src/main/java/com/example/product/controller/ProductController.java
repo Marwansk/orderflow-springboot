@@ -15,15 +15,17 @@ import java.util.List;
 
 
 public class ProductController {
+    private final List<Product> products =new ArrayList<>();
+
     @GetMapping//Esegue il metodo quando arriva una richiesta GET.
 //List<product> indica che il metodo restituisce una lista di prodotti
     public List<Product> getAllProducts(){
-        products.add(new Product(1L, "Mouse", new BigDecimal("19.99"), 10));
-        products.add(new Product(2L,"Keyboard",new BigDecimal("11.99"),30));
+
     return products;//creo lista contenente il prodotto mouse
     }//end metodo getallproduct
     public ProductController() {
-
+        products.add(new Product(1L, "Mouse", new BigDecimal("19.99"), 10));
+        products.add(new Product(2L,"Keyboard",new BigDecimal("11.99"),30));
 
     }
     @GetMapping("/{id}")//gestisce una get con un id nell indirizzo
@@ -43,10 +45,28 @@ public class ProductController {
     }//end getProductById
 
     @PostMapping//riceve richiesta http post.richiede al server di reare una risorsa
-    public Product createproduct(@RequestBody Product product){
-//requeest body trasforma il json in oggetto java
+    public Product createProduct(@RequestBody Product product){
+    //requeest body trasforma il json in oggetto java
+            products.add(product);
         return product;
     }//end createproduct
-    private final List<Product> products =new ArrayList<>();
+
+    @PutMapping("/{id}")
+    public Product updateProduct(//serve a modificare un prodotto gia presente nella lista
+            @PathVariable Long id,
+            @RequestBody Product updatedProduct){
+        for (Product p: products){
+            if(p.getId()==id) {
+                p.setName(updatedProduct.getName());
+                p.setPrice(updatedProduct.getPrice());
+                p.setStock(updatedProduct.getStock());
+                return p;
+            }
+        }
+        throw  new ResponseStatusException(
+          HttpStatus.NOT_FOUND,"Prodotto non trovato"
+        );
+    }//end updateProduct
+
 
 }
