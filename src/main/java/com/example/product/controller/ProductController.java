@@ -1,12 +1,13 @@
 package com.example.product.controller;
 
 import com.example.product.model.Product;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController//permette a spring di gestire richieste rest
@@ -17,11 +18,14 @@ public class ProductController {
     @GetMapping//Esegue il metodo quando arriva una richiesta GET.
 //List<product> indica che il metodo restituisce una lista di prodotti
     public List<Product> getAllProducts(){
-        Product mouse=new Product(1L, "Mouse", new BigDecimal("19.99"),10);
-        Product Keyboard=new Product(2L,"Keyboard", new BigDecimal("25.99"),14);
-    return List.of(mouse,Keyboard);//creo lista contenente il prodotto mouse
+        products.add(new Product(1L, "Mouse", new BigDecimal("19.99"), 10));
+        products.add(new Product(2L,"Keyboard",new BigDecimal("11.99"),30));
+    return products;//creo lista contenente il prodotto mouse
     }//end metodo getallproduct
+    public ProductController() {
 
+
+    }
     @GetMapping("/{id}")//gestisce una get con un id nell indirizzo
     //@PathVariable Long id → prende il numero dall'URL e lo salva nella variabile id.
 
@@ -33,7 +37,16 @@ public class ProductController {
             return p;
         }//end if
         }
-        return null;
+         throw new ResponseStatusException(//se il prodotto non esiste
+                HttpStatus.NOT_FOUND,"prodotto non trovato"
+        );
     }//end getProductById
+
+    @PostMapping//riceve richiesta http post.richiede al server di reare una risorsa
+    public Product createproduct(@RequestBody Product product){
+//requeest body trasforma il json in oggetto java
+        return product;
+    }//end createproduct
+    private final List<Product> products =new ArrayList<>();
 
 }
