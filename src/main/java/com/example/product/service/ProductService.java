@@ -54,7 +54,7 @@ public Product createProduct(Product product){
 
     }//end updateProduct
 
-public void  deleteProduct(@PathVariable Long id) {
+public void  deleteProduct(Long id) {
         for(Product p :products){
             if(p.getId()==id){
                 products.remove(p);
