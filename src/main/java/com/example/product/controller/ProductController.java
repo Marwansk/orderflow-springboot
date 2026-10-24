@@ -29,12 +29,7 @@ public class ProductController {
     public List<Product> getAllProducts(){
     return products;//creo lista contenente il prodotto mouse
     }//end metodo getallproduct
-    public ProductController() {
-        products.add(new Product(1L, "Mouse", new BigDecimal("19.99"), 10));
-        products.add(new Product(2L,"Keyboard",new BigDecimal("11.99"),30));
-        products.add(new Product(3L,"scarpe",new BigDecimal("111.45"),3));
 
-    }
     @GetMapping("/{id}")//gestisce una get con un id nell indirizzo
     //@PathVariable Long id → prende il numero dall'URL e lo salva nella variabile id.
 
