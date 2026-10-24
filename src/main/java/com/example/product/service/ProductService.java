@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -37,7 +39,31 @@ public Product createProduct(Product product){
         return product;
 }//end createProduct
 
+    public Product updateProduct(Long id, Product updateProduct){
+        for (Product p:products) {
+            if(p.getId()==id){
+                p.setName(updateProduct.getName());
+                p.setPrice(updateProduct.getPrice());
+                p.setStock(updateProduct.getStock());
+                return p;
+            }
+        }
+        throw  new ResponseStatusException(
+                HttpStatus.NOT_FOUND,"Prodotto non trovato"
+        );
 
+    }//end updateProduct
+
+public void  deleteProduct(@PathVariable Long id) {
+        for(Product p :products){
+            if(p.getId()==id){
+                products.remove(p);
+                return;
+            }
+        }
+    throw  new ResponseStatusException(HttpStatus.NOT_FOUND,
+            "Prodotto non esiste");
+}//end deleteproduct
 
 
 
