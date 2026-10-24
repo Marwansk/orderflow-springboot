@@ -32,5 +32,16 @@ public List<Product> getAllProducts() {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND,"prodotto non trovato");
     }//end getProductByid
 
+public Product createProduct(Product product){
+        products.add(product);
+        return product;
+}//end createProduct
+
+
+
+
+
+
+
 
 }//end productservice
