@@ -51,7 +51,7 @@ public class ProductController {
     public Product createProduct(@RequestBody Product product){
     //requeest body trasforma il json in oggetto java
             products.add(product);
-        return productService.createProduct(product);
+            return productService.createProduct(product);
     }//end createproduct
 
 
@@ -76,8 +76,7 @@ public class ProductController {
     public void deleteProduct(@PathVariable Long id){
         for (Product p :products){
             if(p.getId()==id){
-                products.remove(p);
-                return productService.deleteProduct(id);
+                 productService.deleteProduct(id);
             }
         }
     throw  new ResponseStatusException(HttpStatus.NOT_FOUND,
