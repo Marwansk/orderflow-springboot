@@ -20,12 +20,12 @@ public class ProductController {
     @GetMapping//Esegue il metodo quando arriva una richiesta GET.
 //List<product> indica che il metodo restituisce una lista di prodotti
     public List<Product> getAllProducts(){
-
     return products;//creo lista contenente il prodotto mouse
     }//end metodo getallproduct
     public ProductController() {
         products.add(new Product(1L, "Mouse", new BigDecimal("19.99"), 10));
         products.add(new Product(2L,"Keyboard",new BigDecimal("11.99"),30));
+        products.add(new Product(3L,"scarpe",new BigDecimal("111.45"),3));
 
     }
     @GetMapping("/{id}")//gestisce una get con un id nell indirizzo
@@ -51,7 +51,7 @@ public class ProductController {
         return product;
     }//end createproduct
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}")//put serve ad aggiornar un prodotto gia esistente
     public Product updateProduct(//serve a modificare un prodotto gia presente nella lista
             @PathVariable Long id,
             @RequestBody Product updatedProduct){
@@ -68,5 +68,16 @@ public class ProductController {
         );
     }//end updateProduct
 
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id){
+        for (Product p :products){
+            if(p.getId()==id){
+                products.remove(p);
+                return;
+            }
+        }
+    throw  new ResponseStatusException(HttpStatus.NOT_FOUND,
+            "Prodotto non esiste");
+    }//end deleteProduct
 
 }
