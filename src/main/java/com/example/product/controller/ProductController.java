@@ -1,5 +1,5 @@
 package com.example.product.controller;
-
+import com.example.product.service.ProductService;
 import com.example.product.model.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -15,7 +15,14 @@ import java.util.List;
 
 
 public class ProductController {
+
     private final List<Product> products =new ArrayList<>();
+
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping//Esegue il metodo quando arriva una richiesta GET.
 //List<product> indica che il metodo restituisce una lista di prodotti
