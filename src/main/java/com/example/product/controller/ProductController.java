@@ -25,20 +25,20 @@ public class ProductController {
     }
 
     @GetMapping//Esegue il metodo quando arriva una richiesta GET.
-//List<product> indica che il metodo restituisce una lista di prodotti
+    //List<product> indica che il metodo restituisce una lista di prodotti
     public List<Product> getAllProducts(){
-    return products;//creo lista contenente il prodotto mouse
+    return productService.getAllProducts();//creo lista contenente il prodotto mouse
     }//end metodo getallproduct
+
 
     @GetMapping("/{id}")//gestisce una get con un id nell indirizzo
     //@PathVariable Long id → prende il numero dall'URL e lo salva nella variabile id.
-
     public Product getProductById(@PathVariable Long id){
         List<Product> products=getAllProducts();
         // Scorre i prodotti uno alla volta e restituisce quello con l'ID richiesto
         for (Product p: products){
         if(p.getId()==id) {
-            return p;
+            return productService.getProductById(id);
         }//end if
         }
          throw new ResponseStatusException(//se il prodotto non esiste
@@ -46,12 +46,14 @@ public class ProductController {
         );
     }//end getProductById
 
+
     @PostMapping//riceve richiesta http post.richiede al server di reare una risorsa
     public Product createProduct(@RequestBody Product product){
     //requeest body trasforma il json in oggetto java
             products.add(product);
-        return product;
+        return productService.createProduct(product);
     }//end createproduct
+
 
     @PutMapping("/{id}")//put serve ad aggiornar un prodotto gia esistente
     public Product updateProduct(//serve a modificare un prodotto gia presente nella lista
@@ -62,7 +64,7 @@ public class ProductController {
                 p.setName(updatedProduct.getName());
                 p.setPrice(updatedProduct.getPrice());
                 p.setStock(updatedProduct.getStock());
-                return p;
+                return productService.updateProduct(id,updatedProduct);
             }
         }
         throw  new ResponseStatusException(
@@ -75,7 +77,7 @@ public class ProductController {
         for (Product p :products){
             if(p.getId()==id){
                 products.remove(p);
-                return;
+                return productService.deleteProduct(id);
             }
         }
     throw  new ResponseStatusException(HttpStatus.NOT_FOUND,
