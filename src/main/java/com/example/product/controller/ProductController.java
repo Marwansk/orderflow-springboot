@@ -1,5 +1,7 @@
 package com.example.product.controller;
-
+import com.example.product.dto.ProductCreateDTO;
+import com.example.product.dto.ProductUpdateDTO;
+import jakarta.validation.Valid;
 import com.example.product.service.ProductService;
 import com.example.product.model.Product;
 import org.springframework.web.bind.annotation.*;
@@ -32,21 +34,35 @@ public class ProductController {
     }//end getProductById
 
 
-    @PostMapping//riceve richiesta http post.richiede al server di reare una risorsa
-    public Product createProduct(@RequestBody Product product){
-    //requeest body trasforma il json in oggetto java
+    @PostMapping
+    public Product createProduct(
+            @Valid @RequestBody ProductCreateDTO request) {
 
-            return productService.createProduct(product);
-    }//end createproduct
+        Product product = new Product(
+                request.getId(),
+                request.getName(),
+                request.getPrice(),
+                request.getStock()
+        );
+
+        return productService.createProduct(product);
+    }
 
 
-    @PutMapping("/{id}")//put serve ad aggiornar un prodotto gia esistente
+    @PutMapping("/{id}")
     public Product updateProduct(
             @PathVariable Long id,
-            @RequestBody Product updatedProduct) {
+            @Valid @RequestBody ProductUpdateDTO request) {
 
-        return productService.updateProduct(id, updatedProduct);
-    }//end updateProduct
+        Product product = new Product(
+                id,
+                request.getName(),
+                request.getPrice(),
+                request.getStock()
+        );
+
+        return productService.updateProduct(id, product);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
