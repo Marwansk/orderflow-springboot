@@ -23,6 +23,7 @@ private final List<Product> products=new ArrayList<>();
     }
 
 public List<Product> getAllProducts() {
+
         return products;
 }//end getallproduct
 
@@ -61,6 +62,12 @@ public List<Product> getAllProducts() {
     }
 
     public Product updateProduct(Long id, Product updateProduct){
+        if (updateProduct.getPrice().compareTo(BigDecimal.ZERO) < 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Il prezzo non può essere negativo"
+            );
+        }
         for (Product p:products) {
             if(p.getId()==id){
                 p.setName(updateProduct.getName());
