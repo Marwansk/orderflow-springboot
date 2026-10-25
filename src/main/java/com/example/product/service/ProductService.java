@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,10 +35,30 @@ public List<Product> getAllProducts() {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND,"prodotto non trovato");
     }//end getProductByid
 
-public Product createProduct(Product product){
+    public Product createProduct(Product product) {
+
+        // Controlla se il prezzo è negativo
+        if (product.getPrice().compareTo(BigDecimal.ZERO) < 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Il prezzo non può essere negativo"
+            );
+        }
+
+        // Controlla se l'ID esiste già
+        for (Product p : products) {
+            if (p.getId() == product.getId()) {
+                throw new ResponseStatusException(
+                        HttpStatus.CONFLICT,
+                        "ID prodotto già esistente"
+                );
+            }
+        }
+
+        // Aggiunge il prodotto alla lista
         products.add(product);
         return product;
-}//end createProduct
+    }
 
     public Product updateProduct(Long id, Product updateProduct){
         for (Product p:products) {
